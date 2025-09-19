@@ -10,6 +10,8 @@ public class PiDigits {
 
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
+    private static boolean flag;
+    private static int adding;
 
     
     /**
@@ -43,6 +45,54 @@ public class PiDigits {
             sum = 16 * (sum - Math.floor(sum));
             digits[i] = (byte) sum;
         }
+
+        return digits;
+    }
+    /**
+     * Returns a range of hexadecimal digits of pi.
+     * @param start The starting location of the range.
+     * @param count The number of digits to return
+     * @param n the number of threads
+     * @return An array containing the hexadecimal digits.
+     */
+    public static byte[] getDigits(int start, int count, int n) throws InterruptedException {
+        if (start < 0) {
+            throw new RuntimeException("Invalid Interval");
+        }
+
+        if (count < 0) {
+            throw new RuntimeException("Invalid Interval");
+        }
+        if(count%n > 0){
+            adding = count%n;
+            flag = true;
+        }
+        int size = count/n;
+        int end=size;
+        int position= 0;
+        byte[] digits = new byte[count];
+        for(int i = 0; i < n; i++){
+            ThreadPI threadpi = new ThreadPI();
+            if(i==n-1 && flag){
+                threadpi.setParams(start, size+adding);
+            }else{
+                threadpi.setParams(start, size);
+            }
+            threadpi.start();
+            threadpi.join();
+            byte[] response = threadpi.getDigits();
+            for(int j = 0; j < response.length; j++){
+                
+                digits[position]=response[j];
+                position++;
+            }
+            start=end+1;
+            end+=size;
+        }
+        if(end < count){
+            
+        }
+
 
         return digits;
     }

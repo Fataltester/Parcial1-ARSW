@@ -15,13 +15,22 @@ public class Main {
 
     public static void main(String a[]) throws InterruptedException {
         ThreadPI firt = new ThreadPI();
-        firt.setParams(0, 10);
-        firt.start();
-        firt.join();
-        System.out.println(bytesToHex(firt.getDigits()));
-        System.out.println(bytesToHex(PiDigits.getDigits(0, 10)));
-        //System.out.println(bytesToHex(PiDigits.getDigits(1, 100)));
-        //System.out.println(bytesToHex(PiDigits.getDigits(1, 1000000)));
+        
+        String test1 = bytesToHex(PiDigits.getDigits(0, 10));
+        String test2 = bytesToHex(PiDigits.getDigits(1, 100));
+        String test3 = bytesToHex(PiDigits.getDigits(1, 1000));
+        
+        String res1 = bytesToHex(PiDigits.getDigits(0, 10,4));
+        String res2 = bytesToHex(PiDigits.getDigits(1, 100,11));
+        String res3 = bytesToHex(PiDigits.getDigits(1, 1000,52));
+        
+        System.out.println(test1);
+        System.out.println(res1);
+        System.out.println(test2);
+        System.out.println(res2); 
+        System.out.println(test3);
+        System.out.println(res3); 
+        
     }
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
